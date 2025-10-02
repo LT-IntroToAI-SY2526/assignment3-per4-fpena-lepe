@@ -23,5 +23,5 @@ The user types in a query, then the match function tries to find a pattern from 
 
 
 3. What are some real-world applications where this type of pattern-matching chatbot system could be useful? How might you extend or improve this system for practical use?
-Some real world applications of this could be like customer support bots for many companies because most people are often asking the same questions so they find patterns in the questions and return the answer.
+Some real world applications of this could be customer support bots for many companies because most people are often asking the same questions so they find patterns in the questions and return the answer.
 To improve this system you would have to have some way to have more patterns to handle like spelling mistakes or different wordings because not everyone words their questions the same way.
