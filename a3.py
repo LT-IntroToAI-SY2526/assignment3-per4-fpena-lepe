@@ -72,7 +72,7 @@ def title_by_year_range(matches: List[str]) -> List[str]:
 
     Returns:
         a list of movie titles made during those years, inclusive (meaning if you pass
-        in ["1991", "1994"] you will get movies made in 1991, 1992, 1993 & 1994)
+        in ["1991", "1994"] you will get movies made in 1991, 1992, 1993  1994)
     """
     result=[]
     start=int(matches[0])
@@ -189,6 +189,12 @@ def year_by_title(matches: List[str]) -> List[int]:
             result.append(get_year(i))
     return result
 
+def actors_by_director(matches: List[str]) -> List[str]:
+    director = matches[0]
+    for movie in movie_db:
+        if get_director(movie) == director:
+            return get_actors(movie)
+    return []  
 
 def title_by_actor(matches: List[str]) -> List[str]:
     """Finds titles of all movies that the given actor was in
@@ -220,6 +226,7 @@ pa_list: List[Tuple[List[str], Callable[[List[str]], List[Any]]]] = [
     (str.split("what movies were made after _"), title_after_year),
     # note there are two valid patterns here two different ways to ask for the director
     # of a movie
+    (str.split("who acted in movies directed by %"),actors_by_director),
     (str.split("who directed %"), director_by_title),
     (str.split("who was the director of %"), director_by_title),
     (str.split("what movies were directed by %"), title_by_director),
@@ -242,7 +249,14 @@ def search_pa_list(src: List[str]) -> List[str]:
         a list of answers. Will be ["I don't understand"] if it finds no matches and
         ["No answers"] if it finds a match but no answers
     """
-    
+    for pattern, action in pa_list:
+        matches = match(pattern, src)
+        if matches != None:
+            result = action(matches)
+            if result == []:
+                return ["No answers"]
+            return result
+    return ["I don't understand"]
 
 
 def query_loop() -> None:
@@ -313,7 +327,17 @@ if __name__ == "__main__":
     assert sorted(title_by_actor(["orson welles"])) == sorted(
         ["citizen kane", "othello"]
     ), "failed title_by_actor test"
-    
+    assert isinstance(actors_by_director(["steven spielberg"]), list), "actors_by_director not returning a list"
+    assert sorted(actors_by_director(["steven spielberg"])) == sorted(
+    [
+        "roy scheider",
+        "robert shaw",
+        "richard dreyfuss",
+        "lorraine gary",
+        "murray hamilton",
+    ]
+    ), "failed actors_by_director test"
+
     
     assert sorted(search_pa_list(["hi", "there"])) == sorted(
         ["I don't understand"]

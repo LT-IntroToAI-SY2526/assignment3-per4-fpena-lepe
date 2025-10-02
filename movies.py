@@ -25,6 +25,17 @@ movie_db: List[Tuple[str, str, int, List[str]]] = [
         ],  # actors/actresses
     ),
     (
+        "the dark knight",  # title
+        "christopher nolan",  # director
+        2008,  # year
+        [
+            "christian bale",
+            "heath ledger",
+            "gary oldman",
+            "morgan freeman",
+        ],  # actors/actresses
+    ),
+    (
         "the big easy",
         "jim mcbride",
         1987,
